@@ -8,41 +8,53 @@ props.menus = []
 props.lstBooks = []
 
 const mounted = () => {
-    //1.加载标签
-    props.menus.push({ name: "一年级上" })
-    props.menus.push({ name: "一年级下" })
 
-    datas.lstAllBooks.push({ id: 0, name: 'book1', cateory:0 })
-    datas.lstAllBooks.push({ id: 1, name: 'book2', cateory:0 })
-    datas.lstAllBooks.push({ id: 2, name: 'book3', cateory:1 })
-    datas.lstAllBooks.push({ id: 3, name: 'book4', cateory:1 })
+    model.menus(null, (res) => {
+        if (res && res["items"]) {
+            res["items"].forEach((item, index) => {
+                //1.加载标签
+                props.menus.push({ name: item.name })
+                //2.加载书
+                addBook(index,item["children"]);
+            });
 
-    //2.根据选择加载图书清单
-    props.lstBooks = datas.lstAllBooks.filter((item)=>{
-        return item.cateory == datas.active.value;
+            //2.根据选择加载图书清单
+            props.lstBooks = datas.lstAllBooks.filter((item) => {
+                return item.cateory == datas.active.value;
+            })
+
+            vant.Toast('加载完成');
+        }
     })
-    
-    vant.Toast('加载完成');
+ 
+    function addBook(typeid, items) {
+        items.forEach((item, index) => {
+            datas.lstAllBooks.push({  name: item.name, cateory: typeid, path:item.filepath,total:item.total })
+        })
+
+    }
+
+
 }
 
 //当前的方法methods 里面的事件
 methods.onChange = (index) => {
     vant.Toast(`标签名 ${props.menus[index].name}`);
     //获得清单
-    props.lstBooks = datas.lstAllBooks.filter((item)=>{
+    props.lstBooks = datas.lstAllBooks.filter((item) => {
         return item.cateory == datas.active.value;
     })
 },
-methods.onRefresh = () => {
-    console.log("下拉刷新");
-},
-methods.onLoad = (refresh = false) => {
-    console.log("上拉加载");
-},
-methods.onShowBook = (item)=>{
-    console.log(item);
-    //跳转
-    window.location.replace("./views/book.html");
-}
+    methods.onRefresh = () => {
+        console.log("下拉刷新");
+    },
+    methods.onLoad = (refresh = false) => {
+        console.log("上拉加载");
+    },
+    methods.onShowBook = (item) => {
+        console.log(item);
+        //跳转
+        window.location.replace("./views/book.html?book="+item.path+"&total="+item.total);
+    }
 
 

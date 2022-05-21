@@ -13,9 +13,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
     <script src="../js/twloader.js"></script>
     <script>
+
         //动态加载
-        TW_LoadScriptFromVersion("../js/version.js", ['../main.js','book.js'], () => {Start()})
+        TW_LoadScriptFromVersion("../env.js", ['../main.js','book.js'], () => {Start()})
     </script>
+    <style>
+        #app{
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -23,8 +29,8 @@
             <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
                 <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"
                     :immediate-check="false">
-                    <van-image v-for="item in props.bookimgs"  lazy-load
-                        :key="item.id"
+                    <van-image v-for="item,index in props.bookimgs"  lazy-load
+                        :key="index"
                         :src="item.url"
                     >
                     </van-image>
@@ -35,7 +41,7 @@
         <div style='display:block;height:100px;'>&nbsp;</div>
         <div>
             <van-tabbar v-model="activeBotTag">
-                <van-tabbar-item icon="wap-home-o" url="index.html">目录</van-tabbar-item>
+                <van-tabbar-item icon="wap-home-o" url="../index.html">目录</van-tabbar-item>
                 <van-tabbar-item icon="photo-o" url="./views/book.html">阅读</van-tabbar-item>
                 <van-tabbar-item icon="apps-o" url="my.html">支持</van-tabbar-item>
             </van-tabbar>

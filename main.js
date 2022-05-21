@@ -9,6 +9,7 @@ const vue3Composition = {
         }
     },
     mounted() {
+        document.getElementById("app").style.display="block";
         if (typeof (mounted) == 'function') mounted();
     },
     //method 可以调用setup中的函数，但是setup中不能调用methods和mounted的函数
@@ -28,7 +29,8 @@ function Start() {
 }
 
 //定义响应数据+非响应数据
-const datas = {}
+const datas = {
+}
 //定义响应式数据
 const props = Vue.reactive({})
 //方法
@@ -43,4 +45,11 @@ const setupOjects = () => {
     }
 }
 
-
+//从url查询输入参数
+function query(name) {
+    var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return decodeURI(result[1]);
+}

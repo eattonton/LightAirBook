@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>轻量级在线阅读工具</title>
+    <title>轻量在线阅读工具</title>
     <!-- 引入样式文件 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vant/4.0.0-alpha.3/index.css" />
     <link rel="stylesheet" href="./css/index.css" />
@@ -16,16 +16,21 @@
     <script src="./js/twloader.js"></script>
     <script>
         //动态加载
-        TW_LoadScriptFromVersion("./js/version.js", ['main.js', 'index.js'], () => { Start() })
+        TW_LoadScriptFromVersion("env.js", ['main.js', 'index.js', './js/http.js'], () => { Start() })
     </script>
     <style>
+        #app{
+            display: none;
+        }
         .sidebar {
             float: left;
         }
 
         .ItemContent {
+            color: #000;
             text-align: left;
-            font-size: 2rem;
+            font-size: 1.2rem;
+            line-height: 1.5rem;
         }
     </style>
 </head>
@@ -35,7 +40,7 @@
         <div>
             <div class="sidebar">
                 <van-sidebar v-model="active" @change="onChange">
-                    <van-sidebar-item v-for="item in props.menus" :key="item.name" :title="item.name" />
+                    <van-sidebar-item v-for="item,index in props.menus" :key="index" :title="item.name" />
                 </van-sidebar>
             </div>
 
@@ -43,7 +48,7 @@
                 <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
                     <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"
                         :immediate-check="false">
-                        <van-cell v-for="item in props.lstBooks" :key="item.id">
+                        <van-cell v-for="item,index in props.lstBooks" :key="index">
                             <van-panel :title="item.name" :status="book">
                                 <div class="ItemContent">
                                     {{item.name}}
