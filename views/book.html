@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,37 +16,81 @@
     <script>
 
         //动态加载
-        TW_LoadScriptFromVersion("../env.js", ['../main.js','book.js'], () => {Start()})
+        TW_LoadScriptFromVersion("../env.js", ['../main.js', 'book.js'], () => { Start() })
     </script>
     <style>
-        #app{
+        #app {
             display: none;
+        }
+
+        .van-tabbar{
+            width: 100%;
+            max-width: 400px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+
+        .opPageBar{
+            display: flex;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 260px;
+            flex-direction: row;
+            justify-content: center;
+            left: 50%;
+            transform: translate(-50%, 0);
+            background-color: #cdcdcd45;
+        }
+
+        .opPageBar img{
+            width: 50px;
+            height: 50px;
+            border: 1px solid #00000075;
+        }
+
+        .opPageBar input{
+            width: 50px;
         }
     </style>
 </head>
+
 <body>
     <div id="app">
         <div class="list-wrapper">
             <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
                 <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"
                     :immediate-check="false">
-                    <van-image v-for="item,index in props.bookimgs"  lazy-load
-                        :key="index"
-                        :src="item.url"
-                    >
-                    </van-image>
+                    <div ref="listImage">
+                        <span v-for="item,index in props.bookimgs" :key="index">
+                            <van-image  
+                                :src="item.url"
+                                :id="index">
+                            </van-image>
+                        </span>
+                        
+                    </div>
                 </van-list>
             </van-pull-refresh>
         </div>
         <!--  底部栏 -->
         <div style='display:block;height:100px;'>&nbsp;</div>
-        <div>
+        <div class="opBottomBar">
             <van-tabbar v-model="activeBotTag">
-                <van-tabbar-item icon="wap-home-o" url="../index.html">目录</van-tabbar-item>
-                <van-tabbar-item icon="photo-o" url="./views/book.html">阅读</van-tabbar-item>
-                <van-tabbar-item icon="apps-o" url="my.html">支持</van-tabbar-item>
+                <van-tabbar-item icon="../res/home.png" url="../index.html">目录</van-tabbar-item>
+                <van-tabbar-item icon="../res/page.png" url="./views/book.html">阅读</van-tabbar-item>
+                <van-tabbar-item icon="../res/apps.png" url="my.html">支持</van-tabbar-item>
             </van-tabbar>
+        </div>
+        <!-- 上边-->
+        <div class="opPageBar" @click.stop="">
+             <img src="../res/arrow_top.png" @click='topmost()'/> 
+             <img src="../res/arrow_pre.png" @click="previous()"/> 
+             <input v-model="pageNumber" label="" placeholder="页码" ></input>
+             <img src="../res/arrow_next.png" @click="next()"/> 
+             <img src="../res/arrow_down.png" @click='bottom()'/> 
         </div>
     </div>
 </body>
+
 </html>
