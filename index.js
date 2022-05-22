@@ -56,7 +56,7 @@ methods.onChange = (index) => {
         //记录选择的项
         store.setStore({book:item.path, total:item.total, pageno:0});
         //跳转
-        //window.location.replace("./views/book.html?book="+item.path+"&total="+item.total);
+        window.location.replace("./views/book.html");
 
     }
 

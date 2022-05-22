@@ -24,7 +24,7 @@ const mounted = () => {
     //获得传入的参数
     datas.pageTotal = datas.bookInfo.total;
     for (let i = 0; i < datas.pageTotal; i++) {
-        props.bookimgs.push({ url: '../res/nopage.png', url2: urlBook + "?book=" + datas.bookInfo.book  + "&page=" + i, page: i });
+        props.bookimgs.push({ url: '../res/nopage.png', url2: urlBook + "?book=" +encodeURIComponent(datas.bookInfo.book) + "&page=" + i, page: i });
     }
 
     //判断可显示的图片
