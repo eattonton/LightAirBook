@@ -4,6 +4,7 @@ datas.listImage = Vue.ref(null)
 //记录当前页
 datas.pageNumber = Vue.ref(0)
 datas.pageTotal = 1
+datas.bookInfo = store.getStore();
 //定义响应式数据
 props.bookimgs = []
 
@@ -21,57 +22,51 @@ const mounted = () => {
     //window.addEventListener('click', windowScrollListener);
     window.addEventListener('touchend', windowScrollListener);
     //获得传入的参数
-    const bookPath = query("book");
-    datas.pageTotal = parseInt(query("total"))
+    datas.pageTotal = datas.bookInfo.total;
     for (let i = 0; i < datas.pageTotal; i++) {
-        props.bookimgs.push({ url: '../res/nopage.png', url2: urlBook + "?book=" + bookPath + "&page=" + i, page: i });
+        props.bookimgs.push({ url: '../res/nopage.png', url2: urlBook + "?book=" + datas.bookInfo.book  + "&page=" + i, page: i });
     }
 
     //判断可显示的图片
-    setTimeout(windowScrollListener, 200);
+    setTimeout(()=>{
+        setScrollByIndex(datas.bookInfo.pageno);
+    }, 200);
+
 }
 
 //根据序号显示图片
 methods.showImage = (index) => {
-    if (!index) return;
-
     if (typeof (index) == "string") {
         index = parseInt(index);
     }
 
-    if (props.bookimgs[index]["url2"]) {
+    if (typeof(index) === 'number' && props.bookimgs[index]["url2"]) {
         props.bookimgs[index].url = props.bookimgs[index].url2;
         delete props.bookimgs[index].url2;
+
+        return true;
     }
+
+    return false;
 
 }
 
 methods.topmost = () => {
-    datas.pageNumber.value = 0;
-    setScrollByIndex(datas.pageNumber.value);
+    setScrollByIndex(0);
 }
 
 //跳转到上一页
 methods.previous = () => {
-    datas.pageNumber.value = datas.pageNumber.value - 1;
-    if (datas.pageNumber.value < 0) {
-        datas.pageNumber.value = 0;
-    }
-    setScrollByIndex(datas.pageNumber.value);
+    setScrollByIndex(datas.pageNumber.value-1);
 }
 
 //跳转到下一页
 methods.next = () => {
-    datas.pageNumber.value = datas.pageNumber.value + 1;
-    if (datas.pageNumber.value >= datas.pageTotal) {
-        datas.pageNumber.value = datas.pageTotal - 1;
-    }
-    setScrollByIndex(datas.pageNumber.value);
+    setScrollByIndex(datas.pageNumber.value+1);
 }
 
 methods.bottom = () => {
-    datas.pageNumber.value = datas.pageTotal - 1;
-    setScrollByIndex(datas.pageNumber.value);
+    setScrollByIndex(datas.pageTotal - 1);
 }
 
 //监听窗口滚动
@@ -90,11 +85,12 @@ function windowScrollListener() {
         if (offsetTop >= scrollTop && offsetTop <= (scrollTop + cHeight)) {
             //console.log(offsetTop,scrollTop,scrollTop + cHeight);
             //在可见范围内
-            methods.showImage(eleVanImage.attributes["id"].value);
+            let bshowimg = methods.showImage(eleVanImage.attributes["id"].value);
 
-            if (!bfindPage) {
-                datas.pageNumber.value = i;
+            if (bshowimg && !bfindPage) {
+                updatePageNumber(i);
                 bfindPage = true;
+                break;
             }
         }
 
@@ -103,6 +99,8 @@ function windowScrollListener() {
 
 //设置窗口滚动到指定位置
 function setScrollByIndex(index) {
+    //更新页码
+    index = updatePageNumber(index);
     let eleSpan = datas.listImage.value.children[index];
     let eleVanImage = eleSpan.children[0];
  
@@ -120,4 +118,17 @@ function setScrollByIndex(index) {
         }
     },100);
     //datas.pageNumber.value = ipage;
+}
+
+function updatePageNumber(index){
+    if (index < 0) {
+        index = 0;
+    }
+    if (index >= datas.pageTotal) {
+        index = datas.pageTotal - 1;
+    }
+    datas.pageNumber.value = index;
+    datas.bookInfo.pageno = index;
+    store.setStore(datas.bookInfo);
+    return index;
 }

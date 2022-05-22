@@ -14,9 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
     <script src="../js/twloader.js"></script>
     <script>
-
         //动态加载
-        TW_LoadScriptFromVersion("../env.js", ['../main.js', 'book.js'], () => { Start() })
+        TW_LoadScriptFromVersion("../env.js", ['../main.js','../js/store.js', 'book.js'], () => { Start() })
     </script>
     <style>
         #app {
