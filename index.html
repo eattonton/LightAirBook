@@ -19,9 +19,24 @@
         TW_LoadScriptFromVersion("env.js", ['main.js','./js/store.js', 'index.js', './js/http.js'], () => { Start() })
     </script>
     <style>
+        body{
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         #app{
             display: none;
+             
         }
+
+        .van-tabbar{
+            width: 100%;
+            max-width: 400px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+
         .sidebar {
             float: left;
         }
@@ -32,11 +47,23 @@
             font-size: 1.2rem;
             line-height: 1.5rem;
         }
+
+        .category-swipe{
+            height: 220px;
+            margin-bottom: 0;
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
+        <div>
+            <van-swipe class="category-swipe" :autoplay="5000">
+                <van-swipe-item v-for="item,index in bookCategorys" :key="index">
+                  <img :src="item.thumb" />
+                </van-swipe-item>
+              </van-swipe>
+        </div>
         <div>
             <van-notice-bar
                 left-icon="volume-o"
@@ -46,7 +73,7 @@
         <div>
             <div class="sidebar">
                 <van-sidebar v-model="active" @change="onChange">
-                    <van-sidebar-item v-for="item,index in props.menus" :key="index" :title="item.name" />
+                    <van-sidebar-item v-for="item,index in props.menus" :key="index" :title="item.label" />
                 </van-sidebar>
             </div>
 
