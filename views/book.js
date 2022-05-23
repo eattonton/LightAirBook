@@ -29,7 +29,7 @@ const mounted = () => {
 
     //判断可显示的图片
     setTimeout(()=>{
-        setScrollByIndex(datas.bookInfo.pageno);
+       setScrollByIndex(datas.bookInfo.pageno);
     }, 200);
 
 }
