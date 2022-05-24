@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理界面</title>
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vant/4.0.0-alpha.3/index.css" />
+    <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.34/vue.global.prod.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vant/4.0.0-alpha.3/vant.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script src="../js/twloader.js"></script>
+    <script>
+        //动态加载
+        TW_LoadScriptFromVersion("../env.js", ['../main.js', 'admin.js', '../js/http.js'], () => { Start() })
+    </script>
+    <style>
+        body{
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #app{
+            display: none;
+             
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <van-cell-group>
+            <van-cell v-for="item,index in props.categorys" 
+                     :key="index"
+                     :title="item.name" 
+                     is-link 
+                     value="强制更新"
+                     @click="updateMenu(item)" />
+        </van-cell-group>
+    </div>
+</body>
+
+</html>
