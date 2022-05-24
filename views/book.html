@@ -64,7 +64,8 @@
                         <span v-for="item,index in props.bookimgs" :key="index">
                             <van-image  
                                 :src="item.url"
-                                :id="index">
+                                :id="index"
+                                @click="showImage(index)">
                             </van-image>
                         </span>
                         
