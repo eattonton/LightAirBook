@@ -60,7 +60,7 @@
         <div>
             <van-swipe class="category-swipe" :autoplay="5000">
                 <van-swipe-item v-for="item,index in bookCategorys" :key="index">
-                  <img :src="item.thumb" />
+                  <van-image :src="item.thumb" @click="switchCategory(item.name)" fit="contain"/>
                 </van-swipe-item>
               </van-swipe>
         </div>
@@ -72,13 +72,13 @@
         </div>
         <div>
             <div class="sidebar">
-                <van-sidebar v-model="active" @change="onChange">
+                <van-sidebar v-model="active" @change="onChange" style="width:120px;">
                     <van-sidebar-item v-for="item,index in props.menus" :key="index" :title="item.label" />
                 </van-sidebar>
             </div>
 
             <div class="list-wrapper">
-                <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+                <van-pull-refresh v-model="refreshing" @refresh="onRefresh"  style="height:600px;overflow: scroll;">
                     <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"
                         :immediate-check="false">
                         <van-cell v-for="item,index in props.lstBooks" :key="index">
