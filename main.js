@@ -53,3 +53,4 @@ function query(name) {
     }
     return decodeURI(result[1]);
 }
+

@@ -24,7 +24,7 @@ const mounted = () => {
     //获得传入的参数
     datas.pageTotal = datas.bookInfo.total;
     for (let i = 0; i < datas.pageTotal; i++) {
-        props.bookimgs.push({ url: '../res/nopage.png', url2: urlBook + "?book=" +encodeURIComponent(datas.bookInfo.book) + "&page=" + i, page: i });
+        props.bookimgs.push({ url: '../res/nopage.png', url2: urlBook + "?book=" +encodeURIComponent(datas.bookInfo.book) + "&page=" + i,book:datas.bookInfo.book, page: i });
     }
 
     //判断可显示的图片
@@ -41,9 +41,13 @@ methods.showImage = (index) => {
     }
 
     if (typeof(index) === 'number' && props.bookimgs[index]["url2"]) {
-        props.bookimgs[index].url = props.bookimgs[index].url2;
-        delete props.bookimgs[index].url2;
-
+        if(props.bookimgs[index]["url2"]){
+            model.getbookpage({book:props.bookimgs[index].book, page:props.bookimgs[index].page},(res)=>{ 
+                props.bookimgs[index].url = res;
+            })
+            delete props.bookimgs[index].url2;
+        }
+        
         return true;
     }
 
