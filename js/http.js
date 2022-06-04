@@ -1,8 +1,29 @@
+function GetDDesc() {
+    var date = new Date();
+    var y = date.getFullYear() % 100;
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var str0 = Math.ceil(Math.random() * 899 + 100).toString()
+    var str1 = Math.ceil(Math.random() * 899 + 100).toString()
+    var str2 = Math.ceil(Math.random() * 899 + 100).toString()
+    var stry = str0 + y.toString();
+    var strm = str1 + m.toString();
+    if (m < 10) {
+        strm = str1 + "0" + m.toString();
+    }
+    var strd = str1 + d.toString();
+    if (d < 10) {
+        strd = str1 + "0" + d.toString();
+    }
+
+    return strd + stry + strm;
+}
+
 //前端路由
 const model = {
     run: function (method, url, data, cb) {
         //axios.defaults.headers.common["Authorization"] = config.getLocalInfo();
-        axios.defaults.headers.common["BrowserTag"] = getDDesc();
+        axios.defaults.headers.common["BrowserTag"] = GetDDesc();
         if (method == "get") {
             axios.get(url, {  //params参数必写 , 如果没有参数传{}也可以
                 params: { data: data }
@@ -60,23 +81,7 @@ model.getbookpage = (data, cb) => {
     model.run("image", APP_BASE_URL + "api/get/book", data, cb);
 }
 
-getDDesc = function () {
-    var date = new Date();
-    var y = date.getFullYear() % 100;
-    var m = date.getMonth() + 1;
-    var d = date.getDate();
-    var str0 = Math.ceil(Math.random() * 899 + 100).toString()
-    var str1 = Math.ceil(Math.random() * 899 + 100).toString()
-    var str2 = Math.ceil(Math.random() * 899 + 100).toString()
-    var stry = str0 + y.toString();
-    var strm = str1 + m.toString();
-    if (m < 10) {
-        strm = str1 + "0" + m.toString();
-    }
-    var strd = str1 + d.toString();
-    if (d < 10) {
-        strd = str1 + "0" + d.toString();
-    }
-
-    return strd + stry + strm;
+//获得书的书签
+model.getbookmark = (data, cb)=>{
+    model.run("get", APP_BASE_URL + 'api/get/bookmark', data, cb);
 }

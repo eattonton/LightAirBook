@@ -34,7 +34,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            max-width: 260px;
+            max-width: 320px;
             flex-direction: row;
             justify-content: center;
             left: 50%;
@@ -89,7 +89,17 @@
              <input v-model="pageNumber" label="" placeholder="页码" ></input>
              <img src="../res/arrow_next.png" @click="next()"/> 
              <img src="../res/arrow_down.png" @click='bottom()'/> 
+             <img src="../res/menu.png" @click='showmenu()'/> 
         </div>
+
+        <van-dialog v-model:show="showMenuDlg" title="目录" show-cancel-button>
+            <div style="height:35rem;overflow: scroll;">
+                <van-list>
+                    <van-cell v-for="item,index in props.listMenu" :key="index" :title="item.title" @click="jumpByMenuPage(item.pagenumber)"/>
+                </van-list>
+            </div>
+           
+        </van-dialog>
     </div>
 </body>
 

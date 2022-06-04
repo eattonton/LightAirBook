@@ -5,8 +5,11 @@ datas.listImage = Vue.ref(null)
 datas.pageNumber = Vue.ref(0)
 datas.pageTotal = 1
 datas.bookInfo = store.getStore();
+//是否显示目录
+datas.showMenuDlg = Vue.ref(false);
 //定义响应式数据
 props.bookimgs = []
+props.listMenu = []  //目录
 
 datas.screenRange = { minx: 0, miny: 0, maxx: 0, maxy: 0 }
 //定义加载
@@ -71,6 +74,25 @@ methods.next = () => {
 
 methods.bottom = () => {
     setScrollByIndex(datas.pageTotal - 1);
+}
+
+//显示书签目录
+methods.showmenu = ()=>{
+    model.getbookmark({book:datas.bookInfo.book},(res)=>{
+        if(res && res.length > 0){
+            props.listMenu.length = 0;
+            datas.showMenuDlg.value = true;
+            res.forEach(element => {
+                props.listMenu.push(element);
+            });
+        }
+    })
+}
+
+//根据目录跳转
+methods.jumpByMenuPage = (pageno)=>{
+    datas.showMenuDlg.value = false;
+    setScrollByIndex(pageno-1);
 }
 
 //监听窗口滚动
