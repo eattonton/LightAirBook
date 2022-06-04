@@ -14,11 +14,11 @@ props.listMenu = []  //目录
 datas.screenRange = { minx: 0, miny: 0, maxx: 0, maxy: 0 }
 //定义加载
 const mounted = () => {
-    //props.bookimgs.push({url:"https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg",id:0});
-    //props.bookimgs.push({url:"https://img.yzcdn.cn/public_files/2017/10/24/1791ba14088f9c2be8c610d0a6cc0f93.jpeg",id:1});
-
     const urlBook = APP_BASE_URL + "api/get/book";
 
+    if(datas.bookInfo && datas.bookInfo.title){
+        document.title = datas.bookInfo.title.substring(0, datas.bookInfo.title.lastIndexOf("."));;
+    }
     //添加滚动事件
     //window.addEventListener('scroll',  windowScrollListener);
     //添加鼠标弹起 或者 触摸弹起

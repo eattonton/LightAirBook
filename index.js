@@ -65,7 +65,7 @@ methods.onLoad = (refresh = false) => {
 methods.onShowBook = (item) => {
     //console.log(item);
     //记录选择的项
-    store.setStore({ book: item.path, total: item.total, pageno: 0 });
+    store.setStore({ book: item.path, total: item.total, pageno: 0, title:item.name });
     //跳转
     window.location.replace("./views/book.html");
 

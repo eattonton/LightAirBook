@@ -9,5 +9,8 @@ const mounted = () => {
 methods.updateMenu = (item)=>{
     model.menus({category:item.name, update:1}, (res) => {
         console.log(res);
+        if(res){
+            alert(item.name+" 更新目录成功")
+        }
     })
 }
